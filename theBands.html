@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bands</title>
+    <script lang="javascript" type="text/javascript">
+        var xmlhttp;
+
+        function getBands() {
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = loadData;
+            xmlhttp.open('GET', 'bands.php', true);
+            xmlhttp.send();
+        }
+
+        function loadData() {
+            if(xmlhttp.readyState==4 && xmlhttp.status==200) {
+                var bandXML = xmlhttp.responseXML.documentElement.getElementsByTagName("bands");
+                console.log(bandXML);
+                var output = "<table>";
+                for(i=0; i<bandXML.length; i++){
+                    var line = "<tr>";
+                    var bandElement = bandXML[i].getElementsByTagName("band");
+                    var bandName = bandElement[0].firstChild.nodeValue;
+
+                    var songElement = bandXML[i].getElementsByTagName("song");
+                    var songName = songElement[0].firstChild.nodeValue;
+                    line += "<td>" + bandName + "</td><td>" + songName + "</td>";
+                    line += "</tr>";
+                    output += line;
+                }
+                output += "</table>";
+                document.getElementById("result").innerHTML = output;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="result"></div>
+    <input type="button" value="Get Bands!" onclick="getBands()" />    
+</body>
+</html>

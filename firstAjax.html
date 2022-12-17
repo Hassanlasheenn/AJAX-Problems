@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Ajax</title>
+    <script lang="javascript" type="text/javascript">
+        var xmlhttp;
+
+        function getNum() {
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = callback;
+            // the third argument is true to activate the asynchronous
+            xmlhttp.open("GET", "random.php", true);
+            xmlhttp.send();
+        }
+
+        // when information comes back from the server
+        function callback() {
+            console.log('Ready State: ' + xmlhttp.readyState + '\nStatus' + xmlhttp.status)
+            // 4 means the request is complete, 1 means the request is not initiated yet
+           if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+               document.getElementById('result').innerHTML = xmlhttp.responseText; 
+           } 
+        }
+    </script>
+</head>
+<body>
+    <div id="result"></div>
+    <input type="button" value="Get Random Number" onclick="getNum()" />
+</body>
+</html>
