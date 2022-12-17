@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songs</title>
+    <script language="javascript" type="text/javascript">
+        var xmlhttp;
+        
+        function getSongs(){
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = loadSong;
+            xmlhttp.open("GET", "songs.php", true);
+            xmlhttp.send();
+        }
+        
+        function loadSong() {
+            if(xmlhttp.readyState==4 && xmlhttp.status==200){
+                var songElement = xmlhttp.responseXML.documentElement.getElementsByTagName('song');
+                var output = '<table>'; 
+                
+                for(i=0; i<songElement.length; i++){
+                    var line ='<tr>';
+                    var songName = songElement[i].firstChild.nodeValue;
+                    line += '<td>' + songName + '</td>';
+                    line += '</tr>';
+                    output += line;
+                }
+                output += '</table>';
+                document.getElementById("result").innerHTML = output;
+            }
+        }
+
+        
+    </script>
+</head>
+<body>
+    <tr>
+        <th>Song Names</th>
+    </tr>
+    <hr>
+    <div id="result"></div>
+    <input type="button" value="Get Songs" onclick="getSongs()">
+</body>
+</html>
